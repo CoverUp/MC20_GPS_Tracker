@@ -204,17 +204,17 @@ char* GPRS::recoverIPAddress()
 
 int GPRS::networkCheck(void)
 {
-    delay(1000);
-    if(0 != MC20_check_with_cmd("AT+CREG?\r\n","+CREG: 0,1",CMD, DEFAULT_TIMEOUT*3)) {
-        ERROR("ERROR:CGREG");
-        return -1;
+    //delay(1000);
+    if(!MC20_check_with_cmd("AT+CREG?\n\r","+CREG: 0,1",CMD, 1)) {
+        ERROR("ERROR:CREG");
+        return 0;
     }
-    delay(1000);
-    if(0 != MC20_check_with_cmd("AT+CGATT?\r\n","+CGATT: 1",CMD, DEFAULT_TIMEOUT)) {
+    //delay(1000);
+    if(!MC20_check_with_cmd("AT+CGATT?\n\r","+CGATT: 1",CMD, 1)) {
         ERROR("ERROR:CGATT");
-        return -1;
+        return 0;
     }
-    return 0;
+    return 1;
 }
 
 bool GPRS::connectTCP(const char *ip, int port)
